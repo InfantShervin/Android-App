@@ -99,12 +99,54 @@ def _build_summary(score, level, sensitive, total, warnings):
         return f"CRITICAL privacy exposure ({score:.1f}%)! This document contains {sensitive} highly sensitive fields. Do NOT share or transmit this document."
 
 
+async def mock_analyze_document(filename: str) -> Dict:
+    """Returns high-fidelity simulated analysis for demo purposes."""
+    import random
+    
+    # Simulate some variety in results
+    is_safe = random.random() > 0.4
+    if is_safe:
+        score = random.uniform(0, 10.0)
+        level = "Safe"
+        entities = [
+            {"text": "John Doe", "label": "OTHER", "bbox": [100, 200, 250, 220], "sensitivity": "Low", "risk_score": 0.1, "matched_types": []},
+            {"text": "123 Main St", "label": "OTHER", "bbox": [100, 250, 300, 270], "sensitivity": "Low", "risk_score": 0.1, "matched_types": []}
+        ]
+        warnings = []
+        safe_fields = ["Name", "Address"]
+    else:
+        score = random.uniform(65.5, 98.2)
+        level = "High" if score < 90 else "Critical"
+        entities = [
+            {"text": "4532 1122 3456 7890", "label": "VALUE", "bbox": [150, 400, 400, 420], "sensitivity": "Critical", "risk_score": 0.95, "matched_types": ["CREDIT_CARD"]},
+            {"text": "password123", "label": "VALUE", "bbox": [150, 450, 300, 470], "sensitivity": "High", "risk_score": 0.85, "matched_types": ["PASSWORD"]},
+            {"text": "SSN: 999-00-1234", "label": "VALUE", "bbox": [150, 500, 400, 520], "sensitivity": "Critical", "risk_score": 0.98, "matched_types": ["SSN"]}
+        ]
+        warnings = ["Unencrypted sensitive data found", "Exposure of PII detected"]
+        safe_fields = ["Header"]
+
+    sensitive_count = sum(1 for e in entities if e["sensitivity"] in ("Critical", "High", "Medium"))
+    total_count = len(entities)
+    summary = _build_summary(score, level, sensitive_count, total_count, warnings)
+
+    return {
+        "entities": entities, "raw_text": "Simulated document text for " + filename,
+        "exposure_score": score, "risk_level": level,
+        "warnings": warnings, "safe_fields": safe_fields,
+        "sensitive_count": sensitive_count, "total_count": total_count,
+        "summary": summary,
+    }
+
+
 async def analyze_document(
     file_bytes: bytes,
     filename: str,
     file_type: str,
     representative_image: Image.Image,
 ) -> Dict:
+    if settings.LITE_MODE:
+        return await mock_analyze_document(filename)
+
     if file_type == "pdf":
         tokens, bboxes = run_ocr_on_pdf(file_bytes)
     else:

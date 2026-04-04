@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     MODEL_PATH: str = "./sgat_layoutlm_model.pth"
     ENVIRONMENT: str = "development"
     FRONTEND_URL: str = "http://localhost:5173"
+    LITE_MODE: bool = True
 
     class Config:
         env_file = ".env"

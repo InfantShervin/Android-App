@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DocShield</string>
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Protect your privacy with AI</string>
+    <string name="email_hint">Gmail Address</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_prompt">Don\'t have an account? Sign Up</string>
+    <string name="dashboard_title">DocShield Scan</string>
+    <string name="scan_button">Select Document</string>
+    <string name="scanning_msg">Analyzing Document...</string>
+    <string name="exposure_score_label">Exposure Score</string>
+</resources>

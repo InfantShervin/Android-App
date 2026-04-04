@@ -37,8 +37,10 @@ app = FastAPI(title="DocShield API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL, "http://localhost:5173", "http://localhost:3000"],
-    allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
+    allow_origins=["*"],
+    allow_credentials=True, 
+    allow_methods=["*"], 
+    allow_headers=["*"],
 )
 
 app.include_router(auth.router)
