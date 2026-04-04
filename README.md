@@ -2,19 +2,21 @@
 
 DocShield is a document analysis and exposure detection system powered by a **Supabase (PostgreSQL)** backend for robust data management and high-performance scaling.
 
-## Screenshots
+## Android Application
 
-| Home Page | Login Page |
-| --- | --- |
-| ![Home Page](./home.png) | ![Login Page](./login.png) |
+This repository includes a full-featured Android mobile application for DocShield. The app provides a convenient interface to access the system's document analysis and exposure detection features on the go.
 
-| Analyze Page | Results Page |
-| --- | --- |
-| ![Analyze Page](./analyze.png) | ![Results Page](./results.png) |
+### Running in Android Studio
 
-| History Page |
-| --- |
-| ![History Page](./history.png) |
+Follow these steps to run the Android app locally:
+1. Open **Android Studio**.
+2. Click on **Open** (or **Open an existing Android Studio project**).
+3. Navigate to the root of this repository and select the `android-app` directory.
+4. Wait for Android Studio to index the project and sync all necessary Gradle dependencies.
+5. Connect a physical Android device via USB debugging, or start an Android Virtual Device (AVD) using the Device Manager.
+6. Click the **Run 'app'** button (green play icon) in the toolbar to build and install the application on your device/emulator.
+
+*(Note: Ensure your Python backend server is running and its URL is correctly configured in the Android app to fully utilize all features).*
 
 ## Running Locally
 
